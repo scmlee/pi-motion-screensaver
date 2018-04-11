@@ -1,5 +1,8 @@
 #Turn off the screensaver
-xset -dpms
+#xset -dpms
 
-./pi-motion-screensaver.py > pi-motion-screensaver.log
+#Disable DPMS and prevent screen from blanking
+xset s off -dpms
+
+./pi-motion-screensaver.py 900 > pi-motion-screensaver.log
 

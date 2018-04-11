@@ -6,26 +6,19 @@ import RPi.GPIO as io
 import subprocess
  
 io.setmode(io.BCM)
-SHUTOFF_DELAY = 20  # seconds
+SHUTOFF_DELAY = 15 * 60  # seconds
 PIR_PIN = 17        # Pin 11 on the board
-LED_PIN = 18
+
+if len(sys.argv) > 1:
+    print("Using argument value as shut-off delay ", sys.argv[1])
+    SHUTOFF_DELAY = int(sys.argv[1])
  
 def main():
     io.setup(PIR_PIN, io.IN)
-    io.setup(LED_PIN, io.OUT)
     turned_off = False
     last_motion_time = time.time()
 
-    #Test the LED
-    print("LED test....")
-    io.output(LED_PIN, True)
-    time.sleep(1)
-    io.output(LED_PIN, False)
-
-    print(".")
-
     while True:
-        #print ("Checking... ", time.time(), last_motion_time, io.input(PIR_PIN))
         if io.input(PIR_PIN):
             last_motion_time = time.time()
             sys.stdout.flush()
@@ -40,12 +33,10 @@ def main():
         time.sleep(.5)
  
 def turn_on():
-    io.output(LED_PIN, False)
     print(time.strftime("%D %T"), "-", "Turn monitor on")
     subprocess.call("sh monitor_on.sh", shell=True)
  
 def turn_off():
-    io.output(LED_PIN, True)
     print(time.strftime("%D %T"), "-", "Turn monitor off")
     subprocess.call("sh monitor_off.sh", shell=True)
  
