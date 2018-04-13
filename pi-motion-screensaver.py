@@ -9,9 +9,14 @@ io.setmode(io.BCM)
 SHUTOFF_DELAY = 15 * 60  # seconds
 PIR_PIN = 17        # Pin 11 on the board
 
+
+print(time.strftime("%D %T"), "-", "Starting up...")
+
 if len(sys.argv) > 1:
-    print("Using argument value as shut-off delay ", sys.argv[1])
+    print("Using argument value as shut-off delay", sys.argv[1], "seconds")
     SHUTOFF_DELAY = int(sys.argv[1])
+
+print("SHUTOFF_DELAY=", str(SHUTOFF_DELAY))
  
 def main():
     io.setup(PIR_PIN, io.IN)
@@ -21,6 +26,7 @@ def main():
     while True:
         if io.input(PIR_PIN):
             last_motion_time = time.time()
+            #print("set last_motion_time", str(last_motion_time))
             sys.stdout.flush()
             if turned_off:
                 turned_off = False
@@ -30,7 +36,7 @@ def main():
                 turned_off = True
                 turn_off()
 
-        time.sleep(.5)
+        time.sleep(1)
  
 def turn_on():
     print(time.strftime("%D %T"), "-", "Turn monitor on")
