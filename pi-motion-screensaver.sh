@@ -8,5 +8,6 @@ fi
 
 trap "echo Killing child processes; pkill -P $$;" EXIT
 
-python3 pi-motion-screensaver.py 900 > pi-motion-screensaver.log
+export PYTHONUNBUFFERED=1
+./pi-motion-screensaver.py 60 > pi-motion-screensaver.log
 
